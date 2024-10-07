@@ -1,9 +1,15 @@
 <?php
+session_start();
 require_once 'functions.php';
 $password = '';
-if (isset($_GET['lunghezza'])) {
+
+
+if (isset($_GET['lunghezza']) && $_GET['lunghezza'] > 0) {
     $lunghezza = intval($_GET['lunghezza']);
     $password = generaPassword($lunghezza);
+    $_SESSION['password'] = $password;
+    header('Location: mostra_password.php');
+    exit;
 }
 ?>
 
@@ -30,12 +36,6 @@ if (isset($_GET['lunghezza'])) {
                 </div>
                 <button type="submit" class="btn btn-primary">Genera</button>
             </form>
-
-            <?php if ($password): ?>
-                <div class="alert alert-success mt-4">
-                    <strong>Password generata:</strong> <?php echo htmlspecialchars($password); ?>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
 </body>
