@@ -1,18 +1,22 @@
 <?php
 session_start();
 require_once 'functions.php';
-$password = '';
 
+$password = '';
 
 if (isset($_GET['lunghezza']) && $_GET['lunghezza'] > 0) {
     $lunghezza = intval($_GET['lunghezza']);
-    $password = generaPassword($lunghezza);
+    $ripetizione = $_GET['ripetizione'] ?? 'si';
+    $tipi = $_GET['tipi'] ?? [];
+
+    $password = generaPassword($lunghezza, $ripetizione === 'si', $tipi);
+
+
     $_SESSION['password'] = $password;
     header('Location: mostra_password.php');
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="it">
 
@@ -34,7 +38,24 @@ if (isset($_GET['lunghezza']) && $_GET['lunghezza'] > 0) {
                     <label for="lunghezza">Lunghezza password:</label>
                     <input type="number" name="lunghezza" id="lunghezza" min="1" required class="form-control">
                 </div>
+                <div class="form-group py-3">
+                    <label>Consenti ripetizioni di uno o più caratteri:</label><br>
+                    <input type="radio" id="si" name="ripetizione" value="si" checked>
+                    <label for="si">Sì</label>
+                    <input type="radio" id="no" name="ripetizione" value="no">
+                    <label for="no">No</label>
+                </div>
+                <div class="form-group py-3">
+                    <label>Caratteri da includere:</label><br>
+                    <input type="checkbox" name="tipi[]" value="lettere" id="lettere">
+                    <label for="lettere">Lettere</label>
+                    <input type="checkbox" name="tipi[]" value="numeri" id="numeri">
+                    <label for="numeri">Numeri</label>
+                    <input type="checkbox" name="tipi[]" value="simboli" id="simboli">
+                    <label for="simboli">Simboli</label>
+                </div>
                 <button type="submit" class="btn btn-primary">Genera</button>
+                <a href="index.php" class="btn btn-secondary">Annulla</a>
             </form>
         </div>
     </div>
