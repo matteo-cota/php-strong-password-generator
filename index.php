@@ -1,18 +1,6 @@
 <?php
-function generaPassword($lunghezza)
-{
-    $caratteri = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&()';
-    $password = '';
-
-    for ($i = 0; $i < $lunghezza; $i++) {
-        $password .= $caratteri[random_int(0, strlen($caratteri) - 1)];
-    }
-
-    return $password;
-}
-
+require_once 'functions.php';
 $password = '';
-
 if (isset($_GET['lunghezza'])) {
     $lunghezza = intval($_GET['lunghezza']);
     $password = generaPassword($lunghezza);
